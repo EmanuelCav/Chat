@@ -1,0 +1,24 @@
+.container-room {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+/* CONTACTS */
+
+.container-contacts {
+    width: 28%;
+    background: red;
+    height: 100%;
+
+}
+
+/* CHAT */
+
+.container-chat {
+    flex: 1;
+    background-color: yellow;
+    height: 100%;
+}
