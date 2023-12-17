@@ -12,3 +12,8 @@ export interface IUser {
 export interface IPhone {
     phone: string;
 }
+
+export interface ILogin {
+    phone: string;
+    password: string;
+}

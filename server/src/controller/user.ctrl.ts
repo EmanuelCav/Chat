@@ -59,7 +59,7 @@ export const loginPhone = async (req: Request, res: Response): Promise<Response>
 
     try {
 
-        const user = await User.findOne({ phone: originalPhone }).select("-password")
+        const user = await User.findOne({ phone: originalPhone }).select("phone")
 
         if (!user) {
 
@@ -96,13 +96,13 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 
     try {
 
-        const user = await User.findOne({ phone: originalPhone }).select("-password")
+        const user = await User.findOne({ phone: originalPhone })
 
         if (!user) {
             return res.status(400).json({ message: "User does not exists" })
         }
 
-        const isPasswordValid = await comparePassword(password, user?.password!)
+        const isPasswordValid = await comparePassword(password, user.password)  
 
         if (!isPasswordValid) {
             return res.status(400).json({
@@ -110,10 +110,12 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
             })
         }
 
+        const userLogged = await User.findOne({ phone: originalPhone }).select("-password")
+
         const token = generateToken(user._id)
 
         return res.status(200).json({
-            user,
+            user: userLogged,
             token
         })
 
