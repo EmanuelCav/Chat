@@ -19,3 +19,7 @@ export const loginApi = async (userData: ILogin) => {
         }
     })
 }
+
+export const registerApi = async () => {
+    
+}

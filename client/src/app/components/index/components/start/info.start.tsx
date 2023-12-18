@@ -7,7 +7,7 @@ import { actionLoginPhone } from '../../../../server/toolkit/user.toolkit';
 
 import { ILogin, IPhone } from '../../../../interface/User'
 
-const InfoStart = () => {
+const InfoStart = ({ setIsAuth }: { setIsAuth: (isAuth: boolean) => void }) => {
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -45,6 +45,11 @@ const InfoStart = () => {
     try {
 
       const { data } = await userApi.loginPhoneApi(phoneData)
+
+      if (data.messsage) {
+        setIsAuth(true)
+        return
+      }
 
       dispatch(actionLoginPhone(data))
 

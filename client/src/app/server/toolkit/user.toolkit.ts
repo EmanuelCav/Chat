@@ -5,7 +5,9 @@ import { IReducerUser } from "../../interface/Reducer";
 import { IUser } from "../../interface/User";
 
 const initialState: IReducerUser = {
-    user: {}
+    user: {},
+    isLoggedIn: true,
+    phone: ""
 }
 
 export const phoneSlice = createSlice({
@@ -14,6 +16,11 @@ export const phoneSlice = createSlice({
     reducers: {
         actionLoginPhone: (state, action: PayloadAction<IUser>) => {
             state.user = action.payload
+            state.isLoggedIn = true,
+            state.phone = action.payload.phone
+        },
+        actionPhone: (state, action: PayloadAction<string>) => {
+            state.phone = action.payload
         }
     }
 })

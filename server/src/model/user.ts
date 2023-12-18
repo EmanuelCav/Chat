@@ -1,19 +1,17 @@
 import { Schema, model, Types } from 'mongoose';
 
-import { User } from 'interface/User';
+import { IUser } from 'interface/User';
 
 const { ObjectId } = Types
 
 const userSchema = new Schema({
-    
+
     name: {
         type: String,
-        required: true,
         trim: true
     },
     surname: {
         type: String,
-        required: true,
         trim: true
     },
     phone: {
@@ -21,9 +19,8 @@ const userSchema = new Schema({
         required: true,
         trim: true
     },
-    password: {
+    code: {
         type: String,
-        required: true,
         trim: true
     },
     photo: {
@@ -41,4 +38,4 @@ const userSchema = new Schema({
     versionKey: false
 })
 
-export default model<User>('User', userSchema)
+export default model<IUser>('User', userSchema)

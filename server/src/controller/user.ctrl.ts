@@ -15,7 +15,7 @@ export const users = async (req: Request, res: Response): Promise<Response> => {
 
     try {
 
-        const showUsers = await User.find().select("-password")
+        const showUsers = await User.find().select("-code")
 
         return res.status(200).json(showUsers)
 
@@ -29,13 +29,13 @@ export const users = async (req: Request, res: Response): Promise<Response> => {
 
 export const user = async (req: Request, res: Response): Promise<Response> => {
 
-    const { phone } = req.body
+    const { phone } = req.params
 
     const originalPhone = modifyPhone(phone)
 
     try {
 
-        const showUser = await User.findOne({ phone: originalPhone }).select("-password")
+        const showUser = await User.findOne({ phone: originalPhone }).select("-code")
 
         if (!showUser) {
             return res.status(400).json({ message: "User does not exists" })
@@ -59,26 +59,45 @@ export const loginPhone = async (req: Request, res: Response): Promise<Response>
 
     try {
 
-        const user = await User.findOne({ phone: originalPhone }).select("phone")
+        const code = generateCode()
+
+        const user = await User.findOne({
+            phone: originalPhone
+        }).select("-code")
 
         if (!user) {
 
-            var code = generateCode()
-
-            await client.messages.create({
-                to: originalPhone,
-                from: phoneNumber,
-                body: `The code is: ${code}`
+            const newUser = await new User({
+                phone: originalPhone
             })
 
-            return res.status(200).json({
-                originalPhone,
-                code,
-                message: "Check your phone."
-            })
+            await newUser.save()
         }
 
-        return res.status(200).json(user)
+        await client.messages.create({
+            to: originalPhone,
+            from: phoneNumber,
+            body: `The code is: ${code}`
+        })
+
+        const userLogged = await User.findOne({
+            phone: originalPhone
+        }).select("phone")
+
+        if (!userLogged) {
+            return res.status(400).json({ message: "User does not exists" })
+        }
+
+        await User.findByIdAndUpdate(userLogged._id, {
+            code
+        }, {
+            new: true
+        })
+
+        return res.status(200).json({
+            user: userLogged,
+            message: "Check your phone."
+        })
 
     } catch (error) {
         return res.status(500).json({
@@ -90,76 +109,28 @@ export const loginPhone = async (req: Request, res: Response): Promise<Response>
 
 export const login = async (req: Request, res: Response): Promise<Response> => {
 
-    const { phone, password } = req.body
-
-    const originalPhone = modifyPhone(phone)
+    const { code } = req.body
+    const { id } = req.params
 
     try {
 
-        const user = await User.findOne({ phone: originalPhone })
+        const user = await User.findById(id)
 
         if (!user) {
             return res.status(400).json({ message: "User does not exists" })
         }
 
-        const isPasswordValid = await comparePassword(password, user.password)  
-
-        if (!isPasswordValid) {
-            return res.status(400).json({
-                message: "Password is incorrect."
-            })
+        if (code !== user.code) {
+            return res.status(400).json({ message: "Code is wrong" })
         }
 
-        const userLogged = await User.findOne({ phone: originalPhone }).select("-password")
-
         const token = generateToken(user._id)
+
+        const userLogged = await User.findById(id).select("-code")
 
         return res.status(200).json({
             user: userLogged,
             token
-        })
-
-    } catch (error) {
-        return res.status(500).json({
-            message: error.message
-        })
-    }
-
-}
-
-export const register = async (req: Request, res: Response): Promise<Response> => {
-
-    const { name, surname, phone, password } = req.body
-
-    const originalPhone = modifyPhone(phone)
-
-    try {
-
-        const userExists = await User.findOne({ phone: originalPhone }).select("-password")
-
-        if (userExists) {
-            return res.status(200).json({
-                message: "Phone is already registered."
-            })
-        }
-
-        var pass = await hashPassword(password)
-
-        const newUser = new User({
-            name,
-            surname,
-            phone: originalPhone,
-            password: pass
-        })
-
-        const user = await newUser.save()
-
-        const token = generateToken(user._id)
-
-        return res.status(200).json({
-            user,
-            token,
-            message: "Welcome! Now you can chat with your contacts."
         })
 
     } catch (error) {
@@ -176,7 +147,7 @@ export const removeUser = async (req: Request, res: Response): Promise<Response>
 
     try {
 
-        const user = await User.findById(id).select("-password")
+        const user = await User.findById(id).select("-code")
 
         if (!user) {
             return res.status(200).json({
