@@ -1,13 +1,16 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import * as userApi from "../../../../server/api/user.api";
-import { actionLoginPhone } from '../../../../server/toolkit/user.toolkit';
+import { ICode, IPhone } from '../../../../interface/User'
+import { IReducer } from '../../../../interface/Reducer';
 
-import { ILogin, IPhone } from '../../../../interface/User'
+import { actionLogin, actionLoginPhone } from '../../../../server/toolkit/user.toolkit';
+import { loginApi, loginPhoneApi } from '../../../../server/api/user.api'
 
-const InfoStart = ({ setIsAuth }: { setIsAuth: (isAuth: boolean) => void }) => {
+const InfoStart = () => {
+
+  const user = useSelector((state: IReducer) => state.user)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -16,82 +19,61 @@ const InfoStart = ({ setIsAuth }: { setIsAuth: (isAuth: boolean) => void }) => {
     phone: ""
   }
 
-  const initialStateLogin: ILogin = {
-    phone: "",
-    password: ""
+  const initialStateCode: ICode = {
+    code: ""
   }
+
+  const [isPhone, setIsPhone] = useState<boolean>(false)
 
   const [phoneData, setPhoneData] = useState<IPhone>(initialState)
-  const [userData, setUserData] = useState<ILogin>(initialStateLogin)
+  const [codeData, setCodeData] = useState<ICode>(initialStateCode)
 
-  const { phone, password } = userData
-
-  const [isLogin, setIsLogin] = useState<boolean>(false)
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-
-    if (isLogin) {
-      setUserData({ ...userData, [name]: value })
-      return
-    }
-
-    setPhoneData({ ...phoneData, [name]: value })
-
-  }
+  const { phone } = phoneData
+  const { code } = codeData
 
   const getData = async () => {
 
     try {
-
-      const { data } = await userApi.loginPhoneApi(phoneData)
-
-      if (data.messsage) {
-        setIsAuth(true)
-        return
-      }
-
-      dispatch(actionLoginPhone(data))
-
-      setIsLogin(true)
-
-      setUserData({
-        phone: phoneData.phone,
-        password: ""
-      })
-
+      const { data } = await loginPhoneApi(phoneData)
+      dispatch(actionLoginPhone(data.user))
+      setIsPhone(true)
     } catch (error) {
       console.log(error);
     }
-
   }
 
   const getDataLogin = async () => {
 
     try {
-
-      const { data } = await userApi.loginApi(userData)
-
-      dispatch(actionLoginPhone(data))
-
+      const { data } = await loginApi(user.user.user!._id, codeData)
+      dispatch(actionLogin(data))
       navigate('/room')
-
     } catch (error) {
       console.log(error);
     }
+  }
 
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+
+    if (isPhone) {
+      setCodeData({ ...codeData, [name]: value })
+      return
+    }
+
+    setPhoneData({ ...phoneData, [name]: value })
   }
 
   const handleSumbit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (isLogin) {
+    if (isPhone) {
       getDataLogin()
       return
     }
 
     getData()
-
   }
 
   return (
@@ -101,10 +83,11 @@ const InfoStart = ({ setIsAuth }: { setIsAuth: (isAuth: boolean) => void }) => {
         <span>Enter your phone to start.</span>
       </p>
       <form onSubmit={handleSumbit}>
-        <input type="text" name='phone' className='input-start' placeholder='PHONE NUMBER' value={isLogin ? phone : phoneData.phone}
-          onChange={handleChange} autoComplete='off' disabled={isLogin} />
+        <input type="text" name='phone' className='input-start' placeholder='PHONE NUMBER' value={phone} autoComplete='off'
+          onChange={handleChange} disabled={isPhone} />
         {
-          isLogin && <input type="password" name='password' className='input-start' placeholder='PASSWORD' value={password} onChange={handleChange} autoComplete='off' />
+          isPhone && <input type="text" name='code' className='input-start' placeholder='CODE' value={code} autoComplete='off'
+            onChange={handleChange} />
         }
         <button className='button-start'>START</button>
       </form>

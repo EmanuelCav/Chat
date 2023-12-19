@@ -1,19 +1,19 @@
 import axios from 'axios'
 
-import { ILogin, IPhone } from '../../interface/User'
+import { ICode, IPhone } from '../../interface/User'
 
 const api = axios.create({ baseURL: 'http://localhost:4000' })
 
 export const loginPhoneApi = async (phoneData: IPhone) => {
-    return await api.post('/loginphone', phoneData, {
+    return await api.post('/users', phoneData, {
         headers: {
             'Content-Type': 'application/json'
         }
     })
 }
 
-export const loginApi = async (userData: ILogin) => {
-    return await api.post('/login', userData, {
+export const loginApi = async (id: string, codeData: ICode) => {
+    return await api.post(`/users/${id}`, codeData, {
         headers: {
             'Content-Type': 'application/json'
         }

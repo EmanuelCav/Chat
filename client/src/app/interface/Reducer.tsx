@@ -1,7 +1,11 @@
-import { IUser } from "./User";
+import { IUserInfo } from "./User";
+
+export interface IReducer {
+    user: IReducerUser;
+}
 
 export interface IReducerUser {
-    user: IUser;
+    user: IUserInfo;
     isLoggedIn: boolean;
-    phone?: string;
 }
+
