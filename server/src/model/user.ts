@@ -24,13 +24,12 @@ const userSchema = new Schema({
         trim: true
     },
     photo: {
-        type: String,
-        trim: true,
-        default: "https://militaryhealthinstitute.org/wp-content/uploads/sites/37/2021/08/blank-profile-picture-png.png"
+        type: ObjectId,
+        ref: 'Image'
     },
     contacts: [{
         type: ObjectId,
-        ref: 'User'
+        ref: 'Contact'
     }],
 
 }, {
