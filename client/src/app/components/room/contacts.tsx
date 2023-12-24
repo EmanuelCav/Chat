@@ -2,7 +2,12 @@
 const Contacts = () => {
     return (
         <div className="container-contacts">
-            Contacts
+            <div className="container-event-contacts">
+                
+            </div>
+            <div className="contain-contacts">
+
+            </div>
         </div>
     )
 }
