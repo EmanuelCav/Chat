@@ -5,18 +5,20 @@ import storage from 'redux-persist/lib/storage';
 
 import userToolkit from './toolkit/user.toolkit';
 
+import { key } from '../config/config';
+
 const reducers = combineReducers({
     user: userToolkit
 })
 
 const persistedReducer = persistReducer({
-    key: `messages-persist`,
+    key: `${key}`,
     version: 1,
     storage
 }, reducers)
 
 export const store = configureStore({
     reducer: persistedReducer,
-    devTools: process.env.NODE_ENV !== 'production',
+    devTools: import.meta.env.DEV,
     middleware: [thunk]
 })

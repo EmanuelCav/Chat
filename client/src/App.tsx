@@ -10,6 +10,8 @@ import Room from './app/routes/room.routes'
 
 import { store } from './app/server/store';
 
+import PrivateRoute from './app/privateRoute';
+
 const persistor = persistStore(store)
 
 function App() {
@@ -21,7 +23,9 @@ function App() {
           <Header />
           <Routes>
             <Route path='/' element={<Index />} />
-            <Route path='/room' element={<Room />} />
+            <Route path='/room' element={<PrivateRoute />}>
+              <Route path='/room' element={<Room />} />
+            </Route>
             <Route path='*' element={<Navigate to='/' />} />
           </Routes>
         </PersistGate>

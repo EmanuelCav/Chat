@@ -2,7 +2,9 @@ import axios from 'axios'
 
 import { ICode, IPhone } from '../../interface/User'
 
-const api = axios.create({ baseURL: 'http://localhost:4000' })
+import { host } from '../../config/config'
+
+const api = axios.create({ baseURL: import.meta.env.DEV ? `${host}` : `${host}` })
 
 export const loginPhoneApi = async (phoneData: IPhone) => {
     return await api.post('/users', phoneData, {
@@ -18,8 +20,4 @@ export const loginApi = async (id: string, codeData: ICode) => {
             'Content-Type': 'application/json'
         }
     })
-}
-
-export const registerApi = async () => {
-    
 }
