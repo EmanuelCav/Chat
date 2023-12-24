@@ -4,7 +4,7 @@ export interface IUser {
     surname: string;
     phone: string;
     photo: string;
-    contacts: any[];
+    contacts: IContact[];
     code: string;
     createdAt: string;
     updatedAt: string;
@@ -12,7 +12,7 @@ export interface IUser {
 
 export interface IUserInfo {
     token?: string;
-    user?: IUser;   
+    user?: IUser;
 }
 
 export interface IPhone {
@@ -21,4 +21,30 @@ export interface IPhone {
 
 export interface ICode {
     code: string;
+}
+
+export interface IContact {
+    _id: string;
+    name: string;
+    user: IUser;
+    messages: any[];
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface IImage {
+    _id: string;
+    image: string;
+    imageId: string;
+    user: IUser;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface IMessage {
+    _id: string;
+    message: string;
+    user: IUser;
+    createdAt: string;
+    updatedAt: string;
 }

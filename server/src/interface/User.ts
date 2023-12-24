@@ -6,7 +6,6 @@ export interface IUser {
     surname: string;
     phone: string;
     photo: string;
-    password: string;
     code: string;
     contacts: IContact[];
     createdAt: NativeDate;
