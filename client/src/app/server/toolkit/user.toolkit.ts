@@ -13,7 +13,7 @@ export const phoneSlice = createSlice({
     name: 'phone',
     initialState,
     reducers: {
-        actionLoginPhone: (state, action: PayloadAction<IUser>) => {
+        updateUser: (state, action: PayloadAction<IUser>) => {
             state.user.user = action.payload
         },
         actionLogin: (state, action: PayloadAction<IUserInfo>) => {
@@ -23,6 +23,6 @@ export const phoneSlice = createSlice({
     }
 })
 
-export const { actionLoginPhone, actionLogin } = phoneSlice.actions
+export const { updateUser, actionLogin } = phoneSlice.actions
 
 export default phoneSlice.reducer

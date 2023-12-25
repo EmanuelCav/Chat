@@ -48,3 +48,8 @@ export interface IMessage {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface IName {
+    name: string;
+    surname: string;
+}

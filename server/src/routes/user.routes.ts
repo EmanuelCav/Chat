@@ -6,6 +6,9 @@ import * as userCtrl from '../controller/user.ctrl'
 
 import phoneValid from '../validation/auth/phone.valid';
 import loginValid from '../validation/auth/login.valid';
+import nameValid from "../validation/auth/name.valid";
+
+import auth from "../middleware/auth";
 
 const router = Router()
 
@@ -14,6 +17,7 @@ router.get('/users/:phone', userCtrl.user)
 router.post('/users', phoneValid, userCtrl.loginPhone)
 router.post('/users/:id', loginValid, userCtrl.login)
 router.delete('/users/:id', userCtrl.removeUser)
+router.put('/users/name/:id', auth, nameValid, userCtrl.updateName)
 router.put('/users/:id', upload.single('file'), userCtrl.updatePhoto)
 
 export default router

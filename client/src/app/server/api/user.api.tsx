@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { ICode, IPhone } from '../../interface/User'
+import { ICode, IName, IPhone } from '../../interface/User'
 
 import { host } from '../../config/config'
 
@@ -18,6 +18,15 @@ export const loginApi = async (id: string, codeData: ICode) => {
     return await api.post(`/users/${id}`, codeData, {
         headers: {
             'Content-Type': 'application/json'
+        }
+    })
+}
+
+export const nameApi = async (nameData: IName, id: string, token: string) => {
+    return await api.put(`/users/name/${id}`, nameData, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         }
     })
 }

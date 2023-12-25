@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ICode, IPhone } from '../../../../interface/User'
 import { IReducer } from '../../../../interface/Reducer';
 
-import { actionLogin, actionLoginPhone } from '../../../../server/toolkit/user.toolkit';
+import { actionLogin, updateUser } from '../../../../server/toolkit/user.toolkit';
 import { loginApi, loginPhoneApi } from '../../../../server/api/user.api'
 
 const InfoStart = () => {
@@ -35,7 +35,7 @@ const InfoStart = () => {
 
     try {
       const { data } = await loginPhoneApi(phoneData)
-      dispatch(actionLoginPhone(data.user))
+      dispatch(updateUser(data.user))
       setIsPhone(true)
     } catch (error) {
       console.log(error);

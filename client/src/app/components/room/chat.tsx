@@ -1,8 +1,11 @@
+import HeaderChat from "./components/headerChat"
+import MessageChat from "./components/messageChat"
 
 const Chat = () => {
     return (
         <div className="container-chat">
-            Chat
+            <HeaderChat />
+            <MessageChat />
         </div>
     )
 }

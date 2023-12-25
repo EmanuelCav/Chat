@@ -5,6 +5,7 @@
     flex-wrap: wrap;
     width: 100%;
     height: 100vh;
+    background: #f4fff4;
 }
 
 /* CONTACTS */
@@ -39,6 +40,14 @@
     color: #4a1;
 }
 
+.icon-contact:hover {
+    color: #4c1;
+}
+
+.icon-contact:active {
+    color: #4a1;
+}
+
 .contact-container {
     padding: 0 12px;
     height: 42px;
@@ -48,8 +57,50 @@
 
 .container-chat {
     padding: 12px 28px;
-    overflow-y: auto;
     flex: 1;
     height: 100%;
     border-left: 1px solid #ddd;
+    flex-direction: column;
+}
+
+.container-header-chat {
+    height: 12%;
+}
+
+.container-message-chat {
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* NAME */
+
+.container-name {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.container-form-name {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    width: 33%;
+    background: #f4fff4;
+    padding: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.title-name-form {
+    color: #4a1;
+    font-size: 28px;
 }

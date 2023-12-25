@@ -169,6 +169,43 @@ export const removeUser = async (req: Request, res: Response): Promise<Response>
 
 }
 
+export const updateName = async (req: Request, res: Response): Promise<Response> => {
+
+    const { id } = req.params
+    const { name, surname } = req.body
+
+    try {
+
+        const user = await User.findById(id)
+
+        if(!user) {
+            return res.status(400).json({ message: "User does not exists" })
+        }
+
+        if(user._id != req.user) {
+            return res.status(400).json({ message: "You cannot update the name" })
+        }
+
+        const userName = name.charAt(0).toUpperCase() + name.slice(1);
+        const userSurname = surname.charAt(0).toUpperCase() + surname.slice(1);
+
+        const userUpdated = await User.findByIdAndUpdate(id, {
+            name: userName,
+            surname: userSurname
+        }, {
+            new: true
+        })
+
+        return res.status(200).json(userUpdated)
+
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message
+        })
+    }
+
+}
+
 export const updatePhoto = async (req: Request, res: Response): Promise<Response> => {
 
     const { id } = req.params

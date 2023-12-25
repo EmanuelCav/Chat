@@ -37,3 +37,9 @@ export interface IImage {
     createdAt: NativeDate;
     updatedAt: NativeDate;
 }
+
+export interface IVerification {
+    id: any;
+    iat: number;
+    exp: number;
+}
