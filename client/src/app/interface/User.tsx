@@ -53,3 +53,8 @@ export interface IName {
     name: string;
     surname: string;
 }
+
+export interface ICreateContact {
+    phone: string;
+    name: string;
+}

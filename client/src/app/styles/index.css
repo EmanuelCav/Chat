@@ -5,6 +5,7 @@
     align-items: center;
     flex-flow: column wrap;
 }
+
 .container-section-index {
     display: flex;
     justify-content: center;
@@ -13,22 +14,27 @@
     height: calc(100vh - 72px);
     padding: 24px;
 }
+
 .section-index-left {
     width: 50%;
     text-align: right;
 }
+
 .section-index-rigth {
     width: 50%;
     text-align: center;
 }
+
 .section-index-group-info {
     text-align: center;
     width: 50%;
 }
+
 .section-index-group-logo {
     text-align: left;
     width: 50%;
 }
+
 .image-index {
     max-width: 415px;
 }
@@ -38,10 +44,12 @@
     color: #fff;
     font-weight: 600;
 }
+
 .text-start {
     color: #fff;
     font-size: 24px;
 }
+
 .button-start {
     width: 66%;
     background: #4a1;
@@ -54,10 +62,12 @@
     font-size: 24px;
     cursor: pointer;
 }
+
 .button-start:hover {
     background: #fff;
     color: #4a1;
 }
+
 .button-start:active {
     background: #4a1;
     color: #fff;

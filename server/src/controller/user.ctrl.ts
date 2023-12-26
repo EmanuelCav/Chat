@@ -176,7 +176,7 @@ export const updateName = async (req: Request, res: Response): Promise<Response>
 
     try {
 
-        const user = await User.findById(id)
+        const user = await User.findById(id).select("-code")
 
         if(!user) {
             return res.status(400).json({ message: "User does not exists" })
@@ -194,7 +194,7 @@ export const updateName = async (req: Request, res: Response): Promise<Response>
             surname: userSurname
         }, {
             new: true
-        })
+        }).select("-code")
 
         return res.status(200).json(userUpdated)
 
