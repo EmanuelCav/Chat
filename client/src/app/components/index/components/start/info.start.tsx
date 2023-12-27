@@ -45,9 +45,11 @@ const InfoStart = () => {
   const getDataLogin = async () => {
 
     try {
+
       const { data } = await loginApi(user.user.user!._id, codeData)
       dispatch(actionLogin(data))
       navigate('/room')
+
     } catch (error) {
       console.log(error);
     }

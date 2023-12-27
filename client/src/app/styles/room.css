@@ -60,6 +60,10 @@
     border-bottom: 2px solid #ddd;
 }
 
+.text-contact {
+    font-size: 20px;
+}
+
 /* CHAT */
 
 .container-chat {
@@ -83,7 +87,7 @@
 
 /* NAME */
 
-.container-name {
+.container-absolute {
     position: absolute;
     top: 0;
     width: 100%;
@@ -112,4 +116,34 @@
 .title-name-form {
     color: #4a1;
     font-size: 28px;
+}
+
+/* ALL CONTACTS */
+
+.container-all-contacts {
+    width: 395px;
+    height: 630px;
+    background: #f4fff4;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    padding: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.contain-all-contacts {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 }

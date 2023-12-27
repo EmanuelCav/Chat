@@ -16,6 +16,7 @@ export interface IContact {
     _id: Types.ObjectId;
     name: string;
     user: IUser;
+    createdBy: IUser;
     messages: IMessage[];
     createdAt: NativeDate;
     updatedAt: NativeDate;

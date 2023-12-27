@@ -20,6 +20,11 @@ const contactSchema = new Schema({
     user: {
         type: ObjectId,
         ref: 'User'
+    },
+
+    createdBy: {
+        type: ObjectId,
+        ref: 'User'
     }
 
 }, {

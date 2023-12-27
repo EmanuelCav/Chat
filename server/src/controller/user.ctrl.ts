@@ -1,13 +1,14 @@
 import { Request, Response } from "express";
-import jwt from 'jsonwebtoken';
 import { Twilio } from 'twilio';
 
 import User from '../model/user';
+import Contact from '../model/contact';
+import Image from '../model/image';
 
-import { accountSid, authToken, phoneNumber, tokenSecret } from "../config/user.config";
+import { accountSid, authToken, phoneNumber } from "../config/user.config";
 
 import { generateCode, modifyPhone } from "../helper/code";
-import { comparePassword, generateToken, hashPassword } from "../helper/encrypt";
+import { generateToken } from "../helper/encrypt";
 
 const client = new Twilio(accountSid, authToken)
 
@@ -67,11 +68,24 @@ export const loginPhone = async (req: Request, res: Response): Promise<Response>
 
         if (!user) {
 
-            const newUser = await new User({
+            const newUser = new User({
                 phone: originalPhone
             })
 
-            await newUser.save()
+            const userSaved = await newUser.save()
+
+            const newImage = new Image({
+                user: userSaved._id
+            })
+
+            const imageSaved = await newImage.save()
+
+            await User.findByIdAndUpdate(userSaved._id, {
+                photo: imageSaved._id
+            }, {
+                new: true
+            })
+
         }
 
         await client.messages.create({
@@ -82,7 +96,10 @@ export const loginPhone = async (req: Request, res: Response): Promise<Response>
 
         const userLogged = await User.findOne({
             phone: originalPhone
-        }).select("phone")
+        })
+            .populate('photo')
+            .populate("contacts")
+            .select("phone")
 
         if (!userLogged) {
             return res.status(400).json({ message: "User does not exists" })
@@ -126,7 +143,10 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 
         const token = generateToken(user._id)
 
-        const userLogged = await User.findById(id).select("-code")
+        const userLogged = await User.findById(id)
+            .populate('photo')
+            .populate("contacts")
+            .select("-code")
 
         return res.status(200).json({
             user: userLogged,
@@ -155,6 +175,12 @@ export const removeUser = async (req: Request, res: Response): Promise<Response>
             })
         }
 
+        await Contact.deleteMany({
+            createdBy: user._id
+        })
+        await Image.deleteOne({
+            user: user._id
+        })
         await User.findByIdAndDelete(id)
 
         return res.status(200).json({
@@ -178,11 +204,11 @@ export const updateName = async (req: Request, res: Response): Promise<Response>
 
         const user = await User.findById(id).select("-code")
 
-        if(!user) {
+        if (!user) {
             return res.status(400).json({ message: "User does not exists" })
         }
 
-        if(user._id != req.user) {
+        if (user._id != req.user) {
             return res.status(400).json({ message: "You cannot update the name" })
         }
 
@@ -194,7 +220,10 @@ export const updateName = async (req: Request, res: Response): Promise<Response>
             surname: userSurname
         }, {
             new: true
-        }).select("-code")
+        })
+            .populate('photo')
+            .populate("contacts")
+            .select("-code")
 
         return res.status(200).json(userUpdated)
 

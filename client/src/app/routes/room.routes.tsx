@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import Name from '../components/room/name';
 import Chat from "../components/room/chat"
 import Contacts from "../components/room/contacts"
+import AllContacts from "../components/room/allContacts";
 
 import { IReducer } from '../interface/Reducer';
 
@@ -12,6 +13,7 @@ const Room = () => {
   const user = useSelector((state: IReducer) => state.user)
 
   const [isCreateContact, setIsCreateContact] = useState<boolean>(false)
+  const [isShowContacts, setIsShowContacts] = useState<boolean>(false)
 
   return (
     <div className="container-room">
@@ -19,7 +21,10 @@ const Room = () => {
         (!user.user.user?.name || !user.user.user?.surname) &&
         <Name user={user} />
       }
-      <Contacts user={user} setIsCreateContact={setIsCreateContact} isCreateContact={isCreateContact} />
+      {
+        isShowContacts && <AllContacts user={user} setIsShowContacts={setIsShowContacts} />
+      }
+      <Contacts user={user} setIsCreateContact={setIsCreateContact} isCreateContact={isCreateContact} setIsShowContacts={setIsShowContacts} />
       <Chat />
     </div>
   )

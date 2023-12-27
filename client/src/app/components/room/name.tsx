@@ -45,7 +45,7 @@ const Name = ({ user }: { user: IReducerUser }) => {
     }
 
     return (
-        <div className="container-name">
+        <div className="container-absolute">
             <form className='container-form-name' onSubmit={handleSumbit}>
                 <h2 className='title-name-form'>Write you name to continue</h2>
                 <input type="text" name='name' className='input-start' placeholder='NAME' autoComplete='off' value={name} onChange={handleChange} />
