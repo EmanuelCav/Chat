@@ -14,20 +14,36 @@ export const createContact = async (req: Request, res: Response): Promise<Respon
     try {
 
         const contact = await User.findOne({ phone: originalPhone })
-        .populate("contacts")
-        .select("-code")
+            .populate({
+                path: "contacts",
+                populate: {
+                    path: "user",
+                    select: "photo phone",
+                    populate: {
+                        path: "photo"
+                    }
+                }
+            })
+            .select("-code")
 
         if (!contact) {
             return res.status(400).json({ message: "Contact does not exists" })
         }
 
         const user = await User.findById(req.user)
+            .populate({
+                path: "contacts",
+                populate: {
+                    path: "user",
+                    select: "photo phone",
+                    populate: {
+                        path: "photo"
+                    }
+                }
+            })
+            .select("-code")
 
-        console.log(contact._id);
-        console.log(user?.contacts);
-        console.log(user?.contacts.find(u => u._id == contact._id));
-
-        if(user?.contacts.find(u => u._id == contact._id)) {
+        if (user?.contacts.find(u => u.user.phone == originalPhone)) {
             return res.status(400).json({ message: "Contact already exists" })
         }
 
@@ -46,9 +62,18 @@ export const createContact = async (req: Request, res: Response): Promise<Respon
         }, {
             new: true
         })
-        .populate('photo')
-        .populate("contacts")
-        .select("-code")
+            .populate('photo')
+            .populate({
+                path: "contacts",
+                populate: {
+                    path: "user",
+                    select: "photo phone",
+                    populate: {
+                        path: "photo"
+                    }
+                }
+            })
+            .select("-code")
 
         return res.status(200).json({
             message: "Contact added successfully",

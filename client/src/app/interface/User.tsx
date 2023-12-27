@@ -3,7 +3,7 @@ export interface IUser {
     name: string;
     surname: string;
     phone: string;
-    photo: string;
+    photo: IImage;
     contacts: IContact[];
     code: string;
     createdAt: string;
@@ -45,6 +45,15 @@ export interface IImage {
 export interface IMessage {
     _id: string;
     message: string;
+    user: IUser;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface IImage {
+    _id: string;
+    image: string;
+    imageId: string;
     user: IUser;
     createdAt: string;
     updatedAt: string;

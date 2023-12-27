@@ -98,7 +98,16 @@ export const loginPhone = async (req: Request, res: Response): Promise<Response>
             phone: originalPhone
         })
             .populate('photo')
-            .populate("contacts")
+            .populate({
+                path: "contacts",
+                populate: {
+                    path: "user",
+                    select: "photo phone",
+                    populate: {
+                        path: "photo"
+                    }
+                }
+            })
             .select("phone")
 
         if (!userLogged) {
@@ -145,7 +154,16 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 
         const userLogged = await User.findById(id)
             .populate('photo')
-            .populate("contacts")
+            .populate({
+                path: "contacts",
+                populate: {
+                    path: "user",
+                    select: "photo phone",
+                    populate: {
+                        path: "photo"
+                    }
+                }
+            })
             .select("-code")
 
         return res.status(200).json({
@@ -222,7 +240,16 @@ export const updateName = async (req: Request, res: Response): Promise<Response>
             new: true
         })
             .populate('photo')
-            .populate("contacts")
+            .populate({
+                path: "contacts",
+                populate: {
+                    path: "user",
+                    select: "photo phone",
+                    populate: {
+                        path: "photo"
+                    }
+                }
+            })
             .select("-code")
 
         return res.status(200).json(userUpdated)
