@@ -17,7 +17,7 @@ const Contacts = ({ user, setIsCreateContact, isCreateContact, setIsShowContacts
         setIsShowContacts(true)
     }
 
-    const contacts = useRef<IContact[] | undefined>(user.user.user?.contacts.filter(contact => contact.messages.length > 0))
+    const contacts = useRef<IContact[] | undefined>(user.user.user?.contacts.filter(contact => contact.messages!.length > 0))
 
     return (
         <div className="container-contacts">
@@ -32,7 +32,7 @@ const Contacts = ({ user, setIsCreateContact, isCreateContact, setIsShowContacts
                 }
                 {
                     contacts.current!.map((contact: IContact) => {
-                        return <Contact contact={contact} key={contact._id} />
+                        return <Contact contact={contact} user={user} key={contact._id} />
                     })
                 }
             </div>

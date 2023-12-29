@@ -2,7 +2,7 @@ import { AllContactPropsType } from "../../types/props.types"
 
 import Contact from "./components/contact"
 
-const AllContacts = ({ user, setIsShowContacts }: AllContactPropsType) => {
+const AllContacts = ({ allContacts, setIsShowContacts, user }: AllContactPropsType) => {
 
   const closeShowContacts = () => {
     setIsShowContacts(false)
@@ -13,8 +13,8 @@ const AllContacts = ({ user, setIsShowContacts }: AllContactPropsType) => {
       <div className="container-all-contacts">
         <div className="contain-all-contacts">
           {
-            user.user.user?.contacts.map((contact) => {
-              return <Contact contact={contact} key={contact._id} />
+            allContacts.map((contact) => {
+              return <Contact contact={contact} user={user} setIsShowContacts={setIsShowContacts} key={contact._id} />
             })
           }
         </div>

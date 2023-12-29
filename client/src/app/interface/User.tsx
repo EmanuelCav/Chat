@@ -24,13 +24,13 @@ export interface ICode {
 }
 
 export interface IContact {
-    _id: string;
-    name: string;
-    user: IUser;
-    createdBy: IUser;
-    messages: any[];
-    createdAt: string;
-    updatedAt: string;
+    _id?: string;
+    name?: string;
+    user?: IUser;
+    createdBy?: IUser;
+    messages?: any[];
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export interface IImage {

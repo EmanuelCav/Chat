@@ -1,4 +1,5 @@
 import { IReducerUser } from "../interface/Reducer"
+import { IContact } from "../interface/User";
 
 export type ContactsPropsType = {
     user: IReducerUser;
@@ -13,6 +14,13 @@ export type CreateContactPropsType = {
 }
 
 export type AllContactPropsType = {
-    user: IReducerUser;
+    allContacts: IContact[];
     setIsShowContacts: (isShowContacts: boolean) => void;
+    user: IReducerUser;
+}
+
+export type ContactPropsType = {
+    user: IReducerUser;
+    contact: IContact;
+    setIsShowContacts?: (isShowContacts: boolean) => void;
 }

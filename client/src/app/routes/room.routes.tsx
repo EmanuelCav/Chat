@@ -22,7 +22,7 @@ const Room = () => {
         <Name user={user} />
       }
       {
-        isShowContacts && <AllContacts user={user} setIsShowContacts={setIsShowContacts} />
+        isShowContacts && <AllContacts user={user} allContacts={[...user.user.user?.contacts.sort((a, b) => a.name!.localeCompare(b.name!))!]} setIsShowContacts={setIsShowContacts} />
       }
       <Contacts user={user} setIsCreateContact={setIsCreateContact} isCreateContact={isCreateContact} setIsShowContacts={setIsShowContacts} />
       <Chat />

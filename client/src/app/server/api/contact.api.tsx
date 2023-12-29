@@ -14,3 +14,12 @@ export const createContactApi = async (contactData: ICreateContact, token: strin
         }
     })
 }
+
+export const getContactApi = async (id: string, token: string) => {
+    return await api.get(`/contacts/${id}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}

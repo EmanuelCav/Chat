@@ -1,4 +1,4 @@
-import { IUserInfo } from "./User";
+import { IContact, IUserInfo } from "./User";
 
 export interface IReducer {
     user: IReducerUser;
@@ -7,5 +7,6 @@ export interface IReducer {
 export interface IReducerUser {
     user: IUserInfo;
     isLoggedIn: boolean;
+    contact: IContact;
 }
 

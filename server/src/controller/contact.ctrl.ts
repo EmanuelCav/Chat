@@ -5,6 +5,33 @@ import Contact from '../model/contact';
 
 import { modifyPhone } from "../helper/code";
 
+export const getContact = async (req: Request, res: Response): Promise<Response> => {
+
+    const { id } = req.params
+
+    try {
+
+        const contact = await Contact.findById(id)
+            .populate({
+                path: "user",
+                select: "photo",
+                populate: {
+                    path: "photo"
+                }
+            })
+
+        if (!contact) {
+            return res.status(400).json({ message: "Contact does not exists" })
+        }
+
+        return res.status(200).json(contact)
+
+    } catch (error) {
+        throw error
+    }
+
+}
+
 export const createContact = async (req: Request, res: Response): Promise<Response> => {
 
     const { name, phone } = req.body

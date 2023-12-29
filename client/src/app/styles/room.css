@@ -49,9 +49,21 @@
 }
 
 .contact-container {
-    padding: 0 12px;
-    height: 42px;
+    padding: 8px 22px;
     display: flex;
+    width: 100%;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    justify-content: left;
+    align-items: center;
+}
+
+.contact-container:hover {
+    background: #fff;
+}
+
+.contact-container:active {
+    background: #f4fff4;
 }
 
 .container-form-contact {
