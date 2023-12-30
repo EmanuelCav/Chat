@@ -98,12 +98,51 @@
 .container-header-chat {
     height: 12%;
     border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+
+.contact-chat-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: contain;
+}
+
+.contact-chat-name {
+    font-size: 28px;
+    margin-left: 16px;
 }
 
 .container-message-chat {
     border-top: 1px solid #ddd;
+    height: 88%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.container-messages {
     overflow-y: auto;
-    flex: 1;
+}
+
+.container-input-message {
+    height: 64px;
+    width: 100%;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-message {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* NAME */

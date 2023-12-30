@@ -1,8 +1,10 @@
+import { IContact } from "../../../interface/User"
 
-const HeaderChat = () => {
+const HeaderChat = ({ contact }: { contact: IContact }) => {
     return (
         <div className="container-header-chat">
-            HeaderChat
+            <img src={contact.user?.photo.image} alt="contact-photo" className="contact-chat-photo" />
+            <p className="contact-chat-name">{contact.name}</p>
         </div>
     )
 }
