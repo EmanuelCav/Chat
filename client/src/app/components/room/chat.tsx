@@ -1,13 +1,13 @@
 import HeaderChat from "./components/headerChat"
 import MessageChat from "./components/messageChat"
 
-import { IContact } from "../../interface/User"
+import { ChatPropsType } from "../../types/props.types"
 
-const Chat = ({ contact }: { contact: IContact }) => {
+const Chat = ({ contact, user }: ChatPropsType ) => {
     return (
         <div className="container-chat">
             <HeaderChat contact={contact} />
-            <MessageChat contact={contact} />
+            <MessageChat contact={contact} user={user} />
         </div>
     )
 }

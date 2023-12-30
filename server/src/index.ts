@@ -12,8 +12,10 @@ import { port } from './config/index.config';
 
 import './database/database'
 import socketConnect from './socket';
+
 import userRoute from './routes/user.routes'
 import contactRoute from './routes/contact.routes';
+import messageRoute from './routes/message.routes';
 
 const app = express()
 
@@ -33,6 +35,7 @@ app.use(express.json({ limit: '30mb' }))
 
 app.use(userRoute)
 app.use(contactRoute)
+app.use(messageRoute)
 
 app.use(express.static(path.join(__dirname, "public")))
 

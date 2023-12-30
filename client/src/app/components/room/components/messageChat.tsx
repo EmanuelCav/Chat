@@ -2,8 +2,9 @@ import Message from "./components/message"
 import InputMessage from "./components/inputMessage"
 
 import { IContact, IMessage } from "../../../interface/User"
+import { ChatPropsType } from "../../../types/props.types"
 
-const MessageChat = ({ contact }: { contact: IContact }) => {
+const MessageChat = ({ contact, user }: ChatPropsType) => {
     return (
         <div className="container-message-chat" style={contact ? { background: '#cfffcf' } : {}}>
             <div className="container-messages">
@@ -15,7 +16,7 @@ const MessageChat = ({ contact }: { contact: IContact }) => {
             </div>
             <div className="container-input-message">
                 {
-                    contact && <InputMessage />
+                    contact && <InputMessage contact={contact} user={user} />
                 }
             </div>
         </div>

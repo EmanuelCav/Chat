@@ -19,6 +19,14 @@ export const getContact = async (req: Request, res: Response): Promise<Response>
                     path: "photo"
                 }
             })
+            .populate({
+                path: "messages",
+                populate: {
+                    path: "user",
+                    select: "name photo",
+                    populate: "photo"
+                }
+            })
 
         if (!contact) {
             return res.status(400).json({ message: "Contact does not exists" })

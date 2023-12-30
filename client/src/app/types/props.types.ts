@@ -1,5 +1,5 @@
 import { IReducerUser } from "../interface/Reducer"
-import { IContact } from "../interface/User";
+import { IContact, IUserInfo } from "../interface/User";
 
 export type ContactsPropsType = {
     user: IReducerUser;
@@ -23,4 +23,9 @@ export type ContactPropsType = {
     user: IReducerUser;
     contact: IContact;
     setIsShowContacts?: (isShowContacts: boolean) => void;
+}
+
+export type ChatPropsType = {
+    contact: IContact;
+    user: IUserInfo;
 }

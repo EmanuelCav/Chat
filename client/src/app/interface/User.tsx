@@ -68,3 +68,7 @@ export interface ICreateContact {
     phone: string;
     name: string;
 }
+
+export interface ICreateMessage {
+    message: string;
+}
