@@ -4,6 +4,7 @@ import { Twilio } from 'twilio';
 import User from '../model/user';
 import Contact from '../model/contact';
 import Image from '../model/image';
+import Message from '../model/message';
 
 import { accountSid, authToken, phoneNumber } from "../config/user.config";
 
@@ -30,13 +31,23 @@ export const users = async (req: Request, res: Response): Promise<Response> => {
 
 export const user = async (req: Request, res: Response): Promise<Response> => {
 
-    const { phone } = req.params
-
-    const originalPhone = modifyPhone(phone)
+    const { id } = req.params
 
     try {
 
-        const showUser = await User.findOne({ phone: originalPhone }).select("-code")
+        const showUser = await User.findById(id)
+            .populate('photo')
+            .populate({
+                path: "contacts",
+                populate: {
+                    path: "user",
+                    select: "photo phone",
+                    populate: {
+                        path: "photo"
+                    }
+                }
+            })
+            .select("-code")
 
         if (!showUser) {
             return res.status(400).json({ message: "User does not exists" })
@@ -97,17 +108,6 @@ export const loginPhone = async (req: Request, res: Response): Promise<Response>
         const userLogged = await User.findOne({
             phone: originalPhone
         })
-            .populate('photo')
-            .populate({
-                path: "contacts",
-                populate: {
-                    path: "user",
-                    select: "photo phone",
-                    populate: {
-                        path: "photo"
-                    }
-                }
-            })
             .select("phone")
 
         if (!userLogged) {
@@ -197,6 +197,9 @@ export const removeUser = async (req: Request, res: Response): Promise<Response>
             createdBy: user._id
         })
         await Image.deleteOne({
+            user: user._id
+        })
+        await Message.deleteMany({
             user: user._id
         })
         await User.findByIdAndDelete(id)

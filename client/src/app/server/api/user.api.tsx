@@ -22,6 +22,14 @@ export const loginApi = async (id: string, codeData: ICode) => {
     })
 }
 
+export const userApi = async (id: string, token: string) => {
+    return await api.get(`/users/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+}
+
 export const nameApi = async (nameData: IName, id: string, token: string) => {
     return await api.put(`/users/name/${id}`, nameData, {
         headers: {

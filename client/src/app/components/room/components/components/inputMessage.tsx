@@ -1,11 +1,12 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 
 import { ICreateMessage } from "../../../../interface/User";
 import { ChatPropsType } from "../../../../types/props.types";
 
 import { createMessageApi } from "../../../../server/api/message.api";
-import { getContactChat } from "../../../../server/toolkit/user.toolkit";
+import { getContactChat, updateUser } from "../../../../server/toolkit/user.toolkit";
+import { userApi } from "../../../../server/api/user.api";
 
 const InputMessage = ({ contact, user }: ChatPropsType) => {
 
@@ -19,11 +20,17 @@ const InputMessage = ({ contact, user }: ChatPropsType) => {
 
   const { message } = messageData
 
+  const getUser = async () => {
+    const { data } = await userApi(user.user?._id!, user.token!)
+    dispatch(updateUser(data))
+  }
+
   const getData = async () => {
 
     try {
       const { data } = await createMessageApi(messageData, contact._id!, user.token!)
-      dispatch(getContactChat(data))
+      dispatch(getContactChat(data.contact))
+      dispatch(updateUser(data.user))
       setMessageData({
         message: ""
       })
@@ -42,6 +49,10 @@ const InputMessage = ({ contact, user }: ChatPropsType) => {
     e.preventDefault()
     getData()
   }
+
+  useEffect(() => {
+    getUser()
+  }, [dispatch])
 
   return (
     <form className="form-message" onSubmit={handleSumbit}>

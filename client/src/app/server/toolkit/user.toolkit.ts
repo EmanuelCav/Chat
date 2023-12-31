@@ -20,6 +20,7 @@ export const phoneSlice = createSlice({
         actionLogin: (state, action: PayloadAction<IUserInfo>) => {
             state.user = action.payload
             state.isLoggedIn = true
+            state.contact = {}
         },
         getContactChat: (state, action: PayloadAction<IContact>) => {
             state.contact = action.payload

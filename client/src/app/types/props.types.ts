@@ -1,5 +1,5 @@
 import { IReducerUser } from "../interface/Reducer"
-import { IContact, IUserInfo } from "../interface/User";
+import { IContact, IMessage, IUserInfo } from "../interface/User";
 
 export type ContactsPropsType = {
     user: IReducerUser;
@@ -28,4 +28,9 @@ export type ContactPropsType = {
 export type ChatPropsType = {
     contact: IContact;
     user: IUserInfo;
+}
+
+export type MessagePropsType = {
+    user: IUserInfo;
+    message: IMessage;
 }

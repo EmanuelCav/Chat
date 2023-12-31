@@ -13,7 +13,7 @@ import auth from "../middleware/auth";
 const router = Router()
 
 router.get('/users', userCtrl.users)
-router.get('/users/:phone', userCtrl.user)
+router.get('/users/:id', auth, userCtrl.user)
 router.patch('/users', phoneValid, userCtrl.loginPhone)
 router.post('/users/:id', loginValid, userCtrl.login)
 router.delete('/users/:id', userCtrl.removeUser)

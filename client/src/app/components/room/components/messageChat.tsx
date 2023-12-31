@@ -1,7 +1,7 @@
 import Message from "./components/message"
 import InputMessage from "./components/inputMessage"
 
-import { IContact, IMessage } from "../../../interface/User"
+import { IMessage } from "../../../interface/User"
 import { ChatPropsType } from "../../../types/props.types"
 
 const MessageChat = ({ contact, user }: ChatPropsType) => {
@@ -10,7 +10,7 @@ const MessageChat = ({ contact, user }: ChatPropsType) => {
             <div className="container-messages">
                 {
                     contact.messages?.map((message: IMessage) => {
-                        return <Message message={message} key={message._id} />
+                        return <Message message={message} user={user} key={message._id} />
                     })
                 }
             </div>

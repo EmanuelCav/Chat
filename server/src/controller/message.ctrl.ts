@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 
 import Message from '../model/message';
 import Contact from '../model/contact';
+import User from '../model/user';
 
 export const createMessage = async (req: Request, res: Response): Promise<Response> => {
 
@@ -12,7 +13,7 @@ export const createMessage = async (req: Request, res: Response): Promise<Respon
 
         const contact = await Contact.findById(id)
 
-        if(!contact) {
+        if (!contact) {
             return res.status(400).json({ message: "Contact does not exists" })
         }
 
@@ -46,7 +47,24 @@ export const createMessage = async (req: Request, res: Response): Promise<Respon
                 }
             })
 
-        return res.status(200).json(contactMessage)
+        const user = await User.findById(req.user)
+            .populate('photo')
+            .populate({
+                path: "contacts",
+                populate: {
+                    path: "user",
+                    select: "photo phone",
+                    populate: {
+                        path: "photo"
+                    }
+                }
+            })
+            .select("-code")
+
+        return res.status(200).json({
+            user,
+            contact: contactMessage
+        })
 
     } catch (error) {
         throw error
